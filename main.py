@@ -31,16 +31,6 @@ def view_student(students):
                 f"Life Orientation: {student['score_life_orentation']}\n")
             print("----------------------------")
 
-def delete_student(students):
-     student_name = input("Enter the name of the student to delete: ")
-    
-    # Finds the student in the dict and deletes them
-     for i, student in enumerate(students):
-          if student["name"] == student_name:
-               del student[i]
-               print(f"Student '{student_name}' deleted.")
-               return
-     print(f"Student '{student_name}' not found.")
 
 def update_student(students):
      student_name = input("Enter the name of the student you want to update: ")
@@ -90,7 +80,17 @@ def update_student(students):
 
                 print(f"Student '{student_name}' not found.")
                 return
-                
+
+def delete_student(students):
+     student_name = input("Enter the name of the student to delete: ")
+    
+    # Finds the student in the dict and deletes them
+     for i, student in enumerate(students):
+          if student["name"] == student_name:
+               del students[i]
+               print(f"Student '{student_name}' deleted.")
+               return
+     print(f"Student '{student_name}' not found.")
 
 # Main program loop
 def main_menu():
@@ -116,6 +116,8 @@ def main_menu():
             view_student(students)
         elif choice == "3":
              update_student(students)
+        elif choice == "4":
+             delete_student(students)
         elif choice == "7":
              print("exiting application")
              break
