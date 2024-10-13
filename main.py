@@ -14,10 +14,10 @@ def add_student(students):
     score_english = get_valid_mark("English")
     score_afrikaans = get_valid_mark("Afrikaans")
     score_geography = get_valid_mark("Geography")
-    score_life_orentation = get_valid_mark("Life Orientation")
+    score_life_orientation = get_valid_mark("Life Orientation")
 
     #Hard coded average formula
-    average_score = round(((score_math + score_english + score_afrikaans + score_geography + score_life_orentation) / 5), 2)
+    average_score = round(((score_math + score_english + score_afrikaans + score_geography + score_life_orientation) / 5), 2)
 
     student = {
         "name" : student_name,
@@ -26,29 +26,38 @@ def add_student(students):
         "score_english" : score_english,
         "score_afrikaans" : score_afrikaans,
         "score_geography" : score_geography,
-        "score_life_orentation" : score_life_orentation,
+        "score_life_orientation" : score_life_orientation,
         "average_score" : average_score
     }
 
     students.append(student)
 
 def view_student(students):
-        for student in students:
-            print("----------------------------")
-            print(
-                    f"Name: {student['name']}\n"
-                    f"Age: {student['age']}\n"
-                    f"Math: {student['score_math']}\n"
-                    f"English: {student['score_english']}\n"
-                    f"Afrikaans: {student['score_afrikaans']}\n"
-                    f"Geography: {student['score_geography']}\n"
-                    f"Life Orientation: {student['score_life_orentation']}\n"
-                    f"{student['name']}'s average is {student['average_score']}%"
-                )
-            print("----------------------------")
+    
+    if not students:
+        print("No students available.\n")
+        return
+
+    for student in students:
+        print("----------------------------")
+        print(
+                f"Name: {student['name']}\n"
+                f"Age: {student['age']}\n"
+                f"Math: {student['score_math']}\n"
+                f"English: {student['score_english']}\n"
+                f"Afrikaans: {student['score_afrikaans']}\n"
+                f"Geography: {student['score_geography']}\n"
+                f"Life Orientation: {student['score_life_orientation']}\n"
+                f"{student['name']}'s average is {student['average_score']}%"
+            )
+        print("----------------------------")
 
 
 def update_student(students):
+    if not students:
+        print("No students available.\n")
+        return
+
     student_name = input("Enter the name of the student you want to update: ")
 
     for student in students:
@@ -99,17 +108,27 @@ def update_student(students):
             return
 
 def delete_student(students):
-     student_name = input("Enter the name of the student to delete: ")
+    
+    if not students:
+        print("No students available.\n")
+        return
+
+    
+    student_name = input("Enter the name of the student to delete: ")
     
     # Finds the student in the dict and deletes them
-     for i, student in enumerate(students):
+    for i, student in enumerate(students):
           if student["name"] == student_name:
                del students[i]
                print(f"Student '{student_name}' deleted.")
                return
-     print(f"Student '{student_name}' not found.")
+    print(f"Student '{student_name}' not found.")
 
 def sort_students(students):
+    if not students:
+        print("No students available.\n")
+        return
+
      
     print("Available sorting parameters:")
     print("1. Name")
@@ -120,12 +139,15 @@ def sort_students(students):
 
     if sort_parameter == "1":
         sorted_students = sorted(students, key=lambda x: x["name"])
+        view_student(sort_students)
     elif sort_parameter == "2":
         sorted_students = sorted(students, key=lambda x: x["age"])
+        view_student(sort_students)
     elif sort_parameter == "3":
          sorted_students = sorted(students, key=lambda x: x["average_score"])
+         view_student(sort_students)
     else:
-         print("Invaild option.")
+         print("Invalid option.")
 
 # Main program loop
 def main_menu():
@@ -153,6 +175,8 @@ def main_menu():
              update_student(students)
         elif choice == "4":
              delete_student(students)
+        elif choice == "5":
+            sort_students(students)
         elif choice == "7":
              print("exiting application")
              break
