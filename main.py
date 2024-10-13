@@ -1,11 +1,23 @@
+def get_valid_mark(subject):
+    while True:
+        mark = float(input(f"Enter {subject} mark: "))
+        if 0 <= mark <= 100:
+            return mark
+        else:
+            print("Invalid mark. Please enter a mark between 0 and 100.")
+
 def add_student(students):
     student_name = input("Name: ")
     student_age = int(input("Age: "))
-    score_math = float(input("Enetr Math mark: "))
-    score_english = float(input("Enter English mark: "))
-    score_afrikaans = float(input("Enter Afrikaans mark: "))
-    score_geography = float(input("Enter Geography mark: "))
-    score_life_orentation = float(input("Enter Life Orenation mark: "))
+
+    score_math = get_valid_mark("Math")
+    score_english = get_valid_mark("English")
+    score_afrikaans = get_valid_mark("Afrikaans")
+    score_geography = get_valid_mark("Geography")
+    score_life_orentation = get_valid_mark("Life Orientation")
+
+    #Hard coded average formula
+    average_score = round(((score_math + score_english + score_afrikaans + score_geography + score_life_orentation) / 5), 2)
 
     student = {
         "name" : student_name,
@@ -14,7 +26,8 @@ def add_student(students):
         "score_english" : score_english,
         "score_afrikaans" : score_afrikaans,
         "score_geography" : score_geography,
-        "score_life_orentation" : score_life_orentation
+        "score_life_orentation" : score_life_orentation,
+        "average_score" : average_score
     }
 
     students.append(student)
@@ -22,64 +35,68 @@ def add_student(students):
 def view_student(students):
         for student in students:
             print("----------------------------")
-            print(f"Name: {student['name']}\n"
-                f"Age: {student['age']}\n"
-                f"Math: {student['score_math']}\n"
-                f"English: {student['score_english']}\n"
-                f"Afrikaans: {student['score_afrikaans']}\n"
-                f"Geography: {student['score_geography']}\n"
-                f"Life Orientation: {student['score_life_orentation']}\n")
+            print(
+                    f"Name: {student['name']}\n"
+                    f"Age: {student['age']}\n"
+                    f"Math: {student['score_math']}\n"
+                    f"English: {student['score_english']}\n"
+                    f"Afrikaans: {student['score_afrikaans']}\n"
+                    f"Geography: {student['score_geography']}\n"
+                    f"Life Orientation: {student['score_life_orentation']}\n"
+                    f"{student['name']}'s average is {student['average_score']}%"
+                )
             print("----------------------------")
 
 
 def update_student(students):
-     student_name = input("Enter the name of the student you want to update: ")
+    student_name = input("Enter the name of the student you want to update: ")
 
-     for student in students:
-          if student["name"] == student_name:
-                print(f"Found student '{student_name}")
+    for student in students:
+        if student["name"] == student_name:
+            print(f"Found student '{student_name}'")
 
-                print("\n")
-                print("----------------------------")
-                print("What would you like to update?")
-                print("1: Name")
-                print("2: Age")
-                print("3: Math Score")
-                print("4: English Score")
-                print("5: Afrikaans Score")
-                print("6: Geography Score")
-                print("7: Life Orientation Score")
-                print("----------------------------")
+            print("\n")
+            print("----------------------------")
+            print("What would you like to update?")
+            print("1: Name")
+            print("2: Age")
+            print("3: Math Score")
+            print("4: English Score")
+            print("5: Afrikaans Score")
+            print("6: Geography Score")
+            print("7: Life Orientation Score")
+            print("----------------------------")
 
-                choice = input("Select an option (1-7): ")
+            choice = input("Select an option (1-7): ")
 
-                if choice == "1":
-                    new_student_name = input("Enter a new name: ")
-                    student["name"] = new_student_name
-                elif choice == "2":
-                    new_student_age = input("Enter a new age: ")
-                    student["age"] = new_student_age
-                elif choice == "3":
-                    new_score_math = input("Enter a new Math mark: ")
-                    student["score_math"] = new_score_math
-                elif choice == "4":
-                    new_score_english = input("Enter a new English mark: ")
-                    student["score_english"] = new_score_english
-                elif choice == "5":
-                    new_score_afrikaans = input("Enter a new Afrikaans mark: ")
-                    student["score_afrikaans"] = new_score_afrikaans
-                elif choice == "6":
-                    new_score_geography = input("Enter a new Geography mark: ")
-                    student["score_geography"] = new_score_geography
-                elif choice == "7":
-                    new_score_life_orientation = input("Enter a new Life Orentation mark: ")
-                    student["score_life_orentation"] = new_score_life_orientation
-                else:
-                    print("Invalid option.")
-                print(f"Student '{student_name}' has been updated!")
-
-                print(f"Student '{student_name}' not found.")
+            if choice == "1":
+                new_student_name = input("Enter a new name: ")
+                student["name"] = new_student_name
+            elif choice == "2":
+                new_student_age = int(input("Enter a new age: "))
+                student["age"] = new_student_age
+            elif choice == "3":
+                student["score_math"] = get_valid_mark("Math")
+            elif choice == "4":
+                student["score_english"] = get_valid_mark("English")
+            elif choice == "5":
+                student["score_afrikaans"] = get_valid_mark("Afrikaans")
+            elif choice == "6":
+                student["score_geography"] = get_valid_mark("Geography")
+            elif choice == "7":
+                student["score_life_orientation"] = get_valid_mark("Life Orientation")
+            else:
+                print("Invalid option.")
                 return
+
+            # Recalculate the average score after update
+            student["average_score"] = round(
+                (student["score_math"] + student["score_english"] + student["score_afrikaans"] +
+                 student["score_geography"] + student["score_life_orientation"]) / 5, 2
+            )
+
+            print(f"Student '{student_name}' has been updated!")
+            return
 
 def delete_student(students):
      student_name = input("Enter the name of the student to delete: ")
@@ -91,6 +108,24 @@ def delete_student(students):
                print(f"Student '{student_name}' deleted.")
                return
      print(f"Student '{student_name}' not found.")
+
+def sort_students(students):
+     
+    print("Available sorting parameters:")
+    print("1. Name")
+    print("2. Age")
+    print("3. Average mark")
+
+    sort_parameter = input("Select a parameter to sort by (1-3): ")
+
+    if sort_parameter == "1":
+        sorted_students = sorted(students, key=lambda x: x["name"])
+    elif sort_parameter == "2":
+        sorted_students = sorted(students, key=lambda x: x["age"])
+    elif sort_parameter == "3":
+         sorted_students = sorted(students, key=lambda x: x["average_score"])
+    else:
+         print("Invaild option.")
 
 # Main program loop
 def main_menu():
