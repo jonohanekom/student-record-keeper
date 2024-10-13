@@ -22,8 +22,8 @@ def add_student(students):
 def view_student(students):
         for student in students:
             print("----------------------------")
-            print(f"Name: {student['student_name']}\n"
-                f"Age: {student['student_age']}\n"
+            print(f"Name: {student['name']}\n"
+                f"Age: {student['age']}\n"
                 f"Math: {student['score_math']}\n"
                 f"English: {student['score_english']}\n"
                 f"Afrikaans: {student['score_afrikaans']}\n"
@@ -36,7 +36,7 @@ def delete_student(students):
     
     # Finds the student in the dict and deletes them
      for i, student in enumerate(students):
-          if student["student_name"] == student_name:
+          if student["name"] == student_name:
                del student[i]
                print(f"Student '{student_name}' deleted.")
                return
@@ -65,10 +65,10 @@ def update_student(students):
 
                 if choice == "1":
                     new_student_name = input("Enter a new name: ")
-                    student["student_name"] = new_student_name
+                    student["name"] = new_student_name
                 elif choice == "2":
                     new_student_age = input("Enter a new age: ")
-                    student["student_age"] = new_student_age
+                    student["age"] = new_student_age
                 elif choice == "3":
                     new_score_math = input("Enter a new Math mark: ")
                     student["score_math"] = new_score_math
@@ -87,7 +87,9 @@ def update_student(students):
                 else:
                     print("Invalid option.")
                 print(f"Student '{student_name}' has been updated!")
-    print(f"Student ")
+
+                print(f"Student '{student_name}' not found.")
+                return
                 
 
 # Main program loop
@@ -112,6 +114,8 @@ def main_menu():
             add_student(students)
         elif choice == "2":
             view_student(students)
+        elif choice == "3":
+             update_student(students)
         elif choice == "7":
              print("exiting application")
              break
