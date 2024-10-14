@@ -1,9 +1,13 @@
 import csv
+import pandas as pd
 
 # CSV file path
 CSV_FILE = 'students.csv'
 
-# 1. Load students from CSV file
+# sets pandas to read from students.csv 
+students_stats = pd.read_csv('students.csv')
+
+# Load students from CSV file
 def load_students():
     students = []
     try:
@@ -12,22 +16,21 @@ def load_students():
             for row in reader:
                 # Convert numeric fields back to appropriate types
                 row["age"] = int(row["age"])
-                row["score_math"] = float(row["score_math"])
-                row["score_english"] = float(row["score_english"])
-                row["score_afrikaans"] = float(row["score_afrikaans"])
-                row["score_geography"] = float(row["score_geography"])
-                row["score_life_orentation"] = float(row["score_life_orentation"])
-                row["average_score"] = float(row["average_score"])
+                row["math_score"] = float(row["math_score"])
+                row["english_score"] = float(row["english_score"])
+                row["afrikaans_score"] = float(row["afrikaans_score"])
+                row["geography_score"] = float(row["geography_score"])
+                row["life_orientation_score"] = float(row["life_orientation_score"])
                 students.append(row)
     except FileNotFoundError:
         print(f"No existing data. A new file '{CSV_FILE}' will be created.")
     return students
 
-# 2. Save students to CSV file
+# Save students to CSV file
 def save_students(students):
     with open(CSV_FILE, mode='w', newline='') as file:
-        fieldnames = ["name", "age", "score_math", "score_english", "score_afrikaans", 
-                      "score_geography", "score_life_orentation", "average_score"]
+        fieldnames = ["name", "age", "math_score", "english_score", "afrikaans_score", 
+                      "geography_score", " life_orientation_score", "average_score"]
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
         for student in students:
@@ -42,27 +45,27 @@ def get_valid_mark(subject):
         else:
             print("Invalid mark. Please enter a mark between 0 and 100.")
 
-# 3. Add a new student and save to CSV
+# Add a new student and save to CSV
 def add_student(students):
     student_name = input("Name: ")
     student_age = int(input("Age: "))
 
-    score_math = get_valid_mark("Math")
-    score_english = get_valid_mark("English")
-    score_afrikaans = get_valid_mark("Afrikaans")
-    score_geography = get_valid_mark("Geography")
-    score_life_orentation = get_valid_mark("Life Orientation")
+    math_score = get_valid_mark("Math")
+    english_score = get_valid_mark("English")
+    afrikaans_score = get_valid_mark("Afrikaans")
+    geography_score = get_valid_mark("Geography")
+    life_orientation_score = get_valid_mark("Life Orientation")
 
-    average_score = round(((score_math + score_english + score_afrikaans + score_geography + score_life_orentation) / 5), 2)
+    average_score = round(((math_score + english_score + afrikaans_score + geography_score + life_orientation_score) / 5), 2)
 
     student = {
         "name": student_name,
         "age": student_age,
-        "score_math": score_math,
-        "score_english": score_english,
-        "score_afrikaans": score_afrikaans,
-        "score_geography": score_geography,
-        "score_life_orentation": score_life_orentation,
+        "math_score": math_score,
+        "english_score": english_score,
+        "afrikaans_score": afrikaans_score,
+        "geography_score": geography_score,
+        "life_orientation_score": life_orientation_score,
         "average_score": average_score
     }
 
@@ -70,23 +73,23 @@ def add_student(students):
     save_students(students)  # Save after adding
     print(f"Student '{student_name}' has been added and saved.")
 
-# 4. View all students
+# View all students
 def view_student(students):
     for student in students:
         print("----------------------------")
         print(
                 f"Name: {student['name']}\n"
                 f"Age: {student['age']}\n"
-                f"Math: {student['score_math']}\n"
-                f"English: {student['score_english']}\n"
-                f"Afrikaans: {student['score_afrikaans']}\n"
-                f"Geography: {student['score_geography']}\n"
+                f"Math: {student['math_score']}\n"
+                f"English: {student['english_score']}\n"
+                f"Afrikaans: {student['afrikaans_score']}\n"
+                f"Geography: {student['geography_score']}\n"
                 f"Life Orientation: {student['score_life_orentation']}\n"
                 f"{student['name']}'s average is {student['average_score']}%"
             )
         print("----------------------------")
 
-# 5. Update a student and save changes
+# Update a student and save changes
 def update_student(students):
     student_name = input("Enter the name of the student you want to update: ")
 
@@ -110,20 +113,20 @@ def update_student(students):
             elif choice == "2":
                 student["age"] = int(input("Enter a new age: "))
             elif choice == "3":
-                student["score_math"] = get_valid_mark("Math")
+                student["math_score"] = get_valid_mark("Math")
             elif choice == "4":
-                student["score_english"] = get_valid_mark("English")
+                student["english_score"] = get_valid_mark("English")
             elif choice == "5":
-                student["score_afrikaans"] = get_valid_mark("Afrikaans")
+                student["afrikaans_score"] = get_valid_mark("Afrikaans")
             elif choice == "6":
-                student["score_geography"] = get_valid_mark("Geography")
+                student["geography_score"] = get_valid_mark("Geography")
             elif choice == "7":
                 student["score_life_orentation"] = get_valid_mark("Life Orientation")
 
             # Recalculate the average score after update
             student["average_score"] = round(
-                (student["score_math"] + student["score_english"] + student["score_afrikaans"] +
-                 student["score_geography"] + student["score_life_orentation"]) / 5, 2
+                (student["math_score"] + student["english_score"] + student["afrikaans_score"] +
+                 student["geography_score"] + student["score_life_orentation"]) / 5, 2
             )
 
             save_students(students)  # Save the updated records
@@ -132,7 +135,7 @@ def update_student(students):
 
     print(f"Student '{student_name}' not found.")
 
-# 6. Delete a student and save changes
+# Delete a student and save changes
 def delete_student(students):
     student_name = input("Enter the name of the student to delete: ")
 
@@ -143,8 +146,44 @@ def delete_student(students):
             print(f"Student '{student_name}' deleted.")
             return
     print(f"Student '{student_name}' not found.")
+    
+# Show some basic statistics for students in the database
+def show_statistics(students):
+    if not students:
+        print("No students found in the database.")
+        return
 
-# 7. Main program loop
+    total_students = len(students)
+    total_age = sum(student["age"] for student in students)
+    average_age = round(total_age / total_students, 2)
+
+    total_math_score = sum(student["math_score"] for student in students)
+    average_math_score = round(total_math_score / total_students, 2)
+
+    total_english_score = sum(student["english_score"] for student in students)
+    average_english_score = round(total_english_score / total_students, 2)
+
+    total_afrikaans_score = sum(student["afrikaans_score"] for student in students)
+    average_afrikaans_score = round(total_afrikaans_score / total_students, 2)
+    
+    total_geography_score = sum(student["geography_score"] for student in students)
+    average_geography_score = round(total_geography_score / total_students, 2)
+    
+    total_life_orientation_score = sum(student["life_orientation_score"] for student in students)
+    average_life_orientation_score = round(total_life_orientation_score / total_students, 2)
+    
+    
+    
+    print(f"Total number of students: {total_students}")
+    print(f"Average age: {average_age}%")
+    print(f"Average Math Score: {average_math_score}%")
+    print(f"Average English Score: {average_english_score}%")
+    print(f"Average Afrikaans Score: {average_afrikaans_score}%")
+    print(f"Average Geography Score: {average_geography_score}%")
+    print(f"Average Life Orientation Score: {average_life_orientation_score}%")
+    
+
+# Main program loop
 def main_menu():
     students = load_students()  # Load students from CSV at the start
     while True:
@@ -153,7 +192,8 @@ def main_menu():
         print("2: View all students")
         print("3: Update a student")
         print("4: Delete a student")
-        print("5: Exit")
+        print("5: Show statistics")
+        print("6: Exit")
         print("------------------")
 
         choice = input("Select an option: ")
@@ -167,6 +207,8 @@ def main_menu():
         elif choice == "4":
             delete_student(students)
         elif choice == "5":
+            show_statistics(students)
+        elif choice == "6":
             print("Exiting application.")
             break
         else:
