@@ -4,6 +4,9 @@ import pandas as pd
 # CSV file path
 CSV_FILE = 'students.csv'
 
+# Read CSV file
+df = pd.read_csv(CSV_FILE)
+
 # Function to get valid marks
 def get_valid_mark(subject):
     while True:
@@ -168,7 +171,6 @@ def show_statistics():
         # print(f"Average Geography Score: {average_geography_score}%")
         # print(f"Average Life Orientation Score: {average_life_orientation_score}%")
 
-        df = pd.read_csv(CSV_FILE)
 
         if df.empty:
             print("No students found in the database")
