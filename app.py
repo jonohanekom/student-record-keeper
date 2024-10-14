@@ -1,4 +1,5 @@
 import csv
+import pandas as pd
 
 # CSV file path
 CSV_FILE = 'students.csv'
@@ -132,32 +133,56 @@ def delete_student():
 # Show basic statistics from the CSV
 def show_statistics():
     try:
-        with open(CSV_FILE, mode='r') as file:
-            students = list(csv.reader(file))
+        # with open(CSV_FILE, mode='r') as file:
+        #     reader = csv.reader(file)
+        #     students = list(reader)[1:]  # Skip the header row
         
-        if not students:
-            print("No students found in the database.")
+        # if not students:
+        #     print("No students found in the database.")
+        #     return
+        
+        # total_students = len(students)
+        # total_age = sum(int(row[1]) for row in students)
+        # average_age = round(total_age / total_students, 2)
+
+        # total_math_score = sum(float(row[2]) for row in students)
+        # average_math_score = round(total_math_score / total_students, 2)
+
+        # total_english_score = sum(float(row[3]) for row in students)
+        # average_english_score = round(total_english_score / total_students, 2)
+
+        # total_afrikaans_score = sum(float(row[4]) for row in students)
+        # average_afrikaans_score = round(total_afrikaans_score / total_students, 2)
+
+        # total_geography_score = sum(float(row[5]) for row in students)
+        # average_geography_score = round(total_geography_score / total_students, 2)
+
+        # total_life_orientation_score = sum(float(row[6]) for row in students)
+        # average_life_orientation_score = round(total_life_orientation_score / total_students, 2)
+
+        # print(f"Total number of students: {total_students}")
+        # print(f"Average age: {average_age}")
+        # print(f"Average Math Score: {average_math_score}%")
+        # print(f"Average English Score: {average_english_score}%")
+        # print(f"Average Afrikaans Score: {average_afrikaans_score}%")
+        # print(f"Average Geography Score: {average_geography_score}%")
+        # print(f"Average Life Orientation Score: {average_life_orientation_score}%")
+
+        df = pd.read_csv(CSV_FILE)
+
+        if df.empty:
+            print("No students found in the database")
             return
+        # Total number of students
+        total_students = len(df)
+        # Calculates averages
+        average_age = df["age"].mean().round(2)
+        average_math_score = df["math_score"].mean().round(2)
+        average_english_score = df["english_score"].mean().round(2)
+        average_afrikaans_score = df["afrikaans_score"].mean().round(2)
+        average_geography_score = df["geography_score"].mean().round(2)
+        average_life_orientation_score = df["life_orientation_score"].mean().round(2)
         
-        total_students = len(students)
-        total_age = sum(int(row[1]) for row in students)
-        average_age = round(total_age / total_students, 2)
-
-        total_math_score = sum(float(row[2]) for row in students)
-        average_math_score = round(total_math_score / total_students, 2)
-
-        total_english_score = sum(float(row[3]) for row in students)
-        average_english_score = round(total_english_score / total_students, 2)
-
-        total_afrikaans_score = sum(float(row[4]) for row in students)
-        average_afrikaans_score = round(total_afrikaans_score / total_students, 2)
-
-        total_geography_score = sum(float(row[5]) for row in students)
-        average_geography_score = round(total_geography_score / total_students, 2)
-
-        total_life_orientation_score = sum(float(row[6]) for row in students)
-        average_life_orientation_score = round(total_life_orientation_score / total_students, 2)
-
         print(f"Total number of students: {total_students}")
         print(f"Average age: {average_age}")
         print(f"Average Math Score: {average_math_score}%")
@@ -165,9 +190,11 @@ def show_statistics():
         print(f"Average Afrikaans Score: {average_afrikaans_score}%")
         print(f"Average Geography Score: {average_geography_score}%")
         print(f"Average Life Orientation Score: {average_life_orientation_score}%")
+        print("------------------")
+
     
     except FileNotFoundError:
-        print("No student records found.")
+        print(f"File '{CSV_FILE}' not found")
 
 # Main program loop
 def main_menu():
