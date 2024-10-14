@@ -175,8 +175,10 @@ def show_statistics():
         if df.empty:
             print("No students found in the database")
             return
+        
         # Total number of students
         total_students = len(df)
+
         # Calculates averages
         average_age = df["age"].mean().round(2)
         average_math_score = df["math_score"].mean().round(2)
@@ -194,7 +196,6 @@ def show_statistics():
         print(f"Average Life Orientation Score: {average_life_orientation_score}%")
         print("------------------")
 
-    
     except FileNotFoundError:
         print(f"File '{CSV_FILE}' not found")
 
